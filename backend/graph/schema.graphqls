@@ -1,0 +1,40 @@
+# An object with a Globally Unique ID
+interface Node {
+  # The ID of the object.
+  id: ID!
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type Patient implements Node {
+  id: ID!
+  name: String!
+  scans: [Scan!]!
+}
+
+input PatientInput {
+  name: String
+}
+
+type Scan implements Node {
+  id: ID!
+  timeCreated: Int! # Unix Time
+  presignedUrl: String! # S3 Presigned URL
+}
+
+type Query {
+  me: User!
+  patients: [Patient!]!
+}
+
+
+type Mutation {
+  createPatient(input: PatientInput!): Patient!
+  createScan(input: Upload!): Scan!
+}
+
+scalar Upload
